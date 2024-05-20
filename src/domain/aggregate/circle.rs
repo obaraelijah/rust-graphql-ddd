@@ -7,7 +7,7 @@ use super::value_object::grade::Grade;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Circle {
-    pub id: CircleId, // Value object
+    pub id: CircleId, // Value Object
     pub name: String,
     pub capacity: usize,
     pub owner: Member,
@@ -15,7 +15,7 @@ pub struct Circle {
 }
 
 impl Circle {
-    pub fn new(name: String, capacity: usize, owner: Member) -> Result<Self, Error> {
+    pub fn new(name: String, owner: Member, capacity: usize) -> Result<Self, Error> {
         if owner.grade != Grade::Third {
             return Err(Error::msg("Owner must be 3rd grade"));
         }

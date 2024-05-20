@@ -1015,8 +1015,11 @@ dependencies = [
  "anyhow",
  "async-graphql",
  "async-graphql-axum",
+ "async-trait",
  "axum",
  "rand",
+ "serde",
+ "serde_json",
  "tokio",
 ]
 
