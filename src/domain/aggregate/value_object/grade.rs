@@ -1,4 +1,4 @@
-#[derive(Copy, Debug, PartialEq, Eq,Clone)]
+#[derive(Copy, Debug, PartialEq, Eq, Hash, Clone)]
 pub enum Grade {
     First,
     Second,
@@ -28,5 +28,24 @@ impl std::convert::TryFrom<usize> for Grade {
             4 => Grade::Fourth,
             _ => anyhow::bail!("error"),
         })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test() -> anyhow::Result<()> {
+        for (v, n) in [
+            (Grade::First, 1),
+            (Grade::Second, 2),
+            (Grade::Third, 3),
+            (Grade::Fourth, 4),
+        ] {
+            assert_eq!(usize::from(v), n);
+            assert_eq!(Grade::try_from(n)?, v);
+        }
+        Ok(())
     }
 }

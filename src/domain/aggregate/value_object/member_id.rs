@@ -32,3 +32,15 @@ impl From<MemberId> for usize {
         member_id.0
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test() {
+        let member_id = MemberId::from(1);
+        assert_eq!(member_id.to_string(), "1");
+        assert_eq!(usize::from(member_id), 1);
+    }
+}
