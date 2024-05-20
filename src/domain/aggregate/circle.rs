@@ -31,4 +31,61 @@ impl Circle {
             members: vec![],
         })
     }
+
+    pub fn reconstruct(id: CircleId, name: String, capacity: usize, owner: Member, members: Vec<Member>) -> Self {
+        Circle {
+            id,
+            name,
+            owner,
+            capacity,
+            members,
+        }
+    }
+
+    pub fn add_member(&mut self, member: Member) -> Result<(), Error> {
+        if self.is_full() {
+            return Err(Error::msg("Circle member is full"));
+        }
+
+        if member.grade == Grade::Fourth {
+            return Err(Error::msg("4th grade can't join circle"));
+        }
+
+        self.members.push(member);
+        Ok(())
+    }
+
+    pub fn update(&mut self, name: Option<String>, capacity: Option<usize>) {
+        if let Some(name) = name {
+            self.name = name;
+        }
+
+        if let Some(capacity) = capacity {
+            self.capacity = capacity;
+        }
+    }
+
+    pub fn is_full(&self) -> bool {
+        self.members.len() + 1 >= self.capacity 
+    }
+
+    pub fn is_drinkable_alcohol(member: &Member) -> bool {
+        member.is_adult()
+    }
+
+    fn is_runnable(&self) -> bool {
+        self.members.len() + 1 >= 5
+    }
+
+    pub fn remove_member(&mut self, member: &Member) -> Result<(), Error> {
+        if self.owner.id == member.id {
+            return Err(Error::msg("Owner can't be removed"));
+        }
+        self.members.retain(|m| m.id != member.id);
+        Ok(())
+    }
+
+    pub fn graduate(&mut self) {
+        self.members.retain(|m| m.grade != Grade::Fourth);
+    }
 }
