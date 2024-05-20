@@ -1,5 +1,6 @@
 mod query_root;
 mod mutation_root;
+mod domain;
 
 use async_graphql::{http::GraphiQLSource, Schema, EmptySubscription};
 use async_graphql_axum::GraphQL;
