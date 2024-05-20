@@ -4,6 +4,7 @@ mod domain;
 mod command;
 mod server;
 mod query;
+mod api;
 
 use async_graphql::{http::GraphiQLSource, Schema, EmptySubscription};
 use async_graphql_axum::GraphQL;
