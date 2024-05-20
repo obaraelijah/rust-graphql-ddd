@@ -79,11 +79,9 @@ impl QueryRoot {
             sub_field: ComplexSubField {
                 sub_field1: true,
                 sub_field2: "subvalue2".to_string(),
-            }
+            },
         }
     }
-
-
 }
 
 // json
@@ -114,7 +112,6 @@ pub struct NotSimpleObject {
     pub field2: i32,
     pub sub_field: ComplexSubField,
 }
-
 
 #[async_graphql::Object]
 impl NotSimpleObject {

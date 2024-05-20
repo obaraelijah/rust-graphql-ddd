@@ -10,8 +10,8 @@ pub struct Db {
 
 impl Db {
     pub fn new() -> Self {
-        Self { 
-            db: Arc::new(RwLock::new(HashMap::new()))
+        Self {
+            db: Arc::new(RwLock::new(HashMap::new())),
         }
     }
 

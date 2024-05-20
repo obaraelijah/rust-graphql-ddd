@@ -1,8 +1,8 @@
 mod api;
 mod command;
 mod domain;
-mod mutation_root;
 mod infrastructure;
+mod mutation_root;
 mod query;
 mod query_root;
 mod server;

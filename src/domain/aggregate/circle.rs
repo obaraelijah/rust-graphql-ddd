@@ -72,7 +72,7 @@ impl Circle {
     }
 
     pub fn is_full(&self) -> bool {
-        self.members.len() + 1 >= self.capacity 
+        self.members.len() + 1 >= self.capacity
     }
 
     pub fn is_drinkable_alcohol(member: &Member) -> bool {

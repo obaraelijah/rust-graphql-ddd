@@ -16,7 +16,7 @@ impl AppState {
         command_handler: Arc<dyn CommandHandler + Send + Sync>,
         query_handler: Arc<dyn QueryHandler + Send + Sync>,
     ) -> Self {
-        Self { 
+        Self {
             command_handler,
             query_handler,
         }

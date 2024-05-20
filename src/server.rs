@@ -6,8 +6,8 @@ use crate::{
         command_handler::CommandHandler,
         interface::circle_repository_interface::{CircleRepositoryInterface, HasCircleRepository},
     },
-    query::query_handler::QueryHandler,
     infrastructure::circle_repository::CircleRepository,
+    query::query_handler::QueryHandler,
 };
 
 pub fn new() -> anyhow::Result<AppState> {

@@ -15,7 +15,7 @@ pub trait CommandHandler: HasCircleRepository {
         let grade = Grade::try_from(input.owner_grade)?;
         let major = Major::from(input.owner_major.as_str());
         let owner = Member::new(input.owner_name, input.owner_age, grade, major);
-        let circle = Circle::new(input.circle_name,owner, input.capacity)?;
+        let circle = Circle::new(input.circle_name, owner, input.capacity)?;
         let circle_id = circle.id.clone();
         self.circle_repository()
             .create(&circle)

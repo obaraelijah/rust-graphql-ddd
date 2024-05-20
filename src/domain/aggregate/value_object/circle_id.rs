@@ -27,7 +27,7 @@ impl std::fmt::Display for CircleId {
     }
 }
 
-impl std::convert::From<CircleId>  for usize {
+impl std::convert::From<CircleId> for usize {
     fn from(circle_id: CircleId) -> Self {
         circle_id.0
     }

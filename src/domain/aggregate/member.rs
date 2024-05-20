@@ -12,10 +12,10 @@ pub struct Member {
 }
 impl Member {
     pub fn new(name: String, age: usize, grade: Grade, major: Major) -> Self {
-        Member { 
+        Member {
             id: MemberId::gen(),
-            name, 
-            age, 
+            name,
+            age,
             grade,
             major,
         }

@@ -3,7 +3,7 @@ pub struct Mutation;
 #[async_graphql::Object]
 impl Mutation {
     // mutation {
-    // add(a:1, b:2)    
+    // add(a:1, b:2)
     //}
     async fn add(&self, a: i32, b: i32) -> i32 {
         a + b
@@ -49,7 +49,6 @@ impl Mutation {
         let json: JsonPlaceholderMutationResult = serde_json::from_str(&body)?;
         Ok(json)
     }
-
 }
 
 #[derive(async_graphql::InputObject)]
