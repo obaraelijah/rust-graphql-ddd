@@ -17,7 +17,7 @@ pub struct CircleRepository {
 }
 
 impl CircleRepository {
-    //TODO: Chnage DB to mysql
+    // TODO: change DB to mySQL
     pub fn new() -> Self {
         Self { db: Db::new() }
     }
@@ -83,7 +83,7 @@ impl std::convert::From<Circle> for CircleData {
             members: circle.members.into_iter().map(MemberData::from).collect(),
         }
     }
-}    
+}
 
 impl std::convert::TryFrom<CircleData> for Circle {
     type Error = Error;
@@ -107,6 +107,7 @@ impl std::convert::TryFrom<CircleData> for Circle {
         ))
     }
 }
+
 #[derive(serde::Deserialize, serde::Serialize)]
 struct MemberData {
     id: usize,
@@ -165,7 +166,7 @@ mod tests {
         Circle::new(
             "Music club".to_string(),
             Member::new("member_name1".to_string(), 21, Grade::Third, Major::Art),
-            3,
+            5,
         )
     }
 }
