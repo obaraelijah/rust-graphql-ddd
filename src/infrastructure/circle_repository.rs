@@ -141,3 +141,31 @@ impl std::convert::TryFrom<MemberData> for Member {
         ))
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test() -> anyhow::Result<()> {
+        let mut circle1 = build_circle()?;
+        let repository = CircleRepository::new();
+        assert!(repository.find_circle_by_id(&circle1.id).is_err());
+        repository.create(&circle1)?;
+        assert_eq!(repository.find_circle_by_id(&circle1.id)?, circle1);
+        circle1.name = "circle_name2".to_string();
+        repository.update(&circle1)?;
+        assert_eq!(repository.find_circle_by_id(&circle1.id)?, circle1);
+        repository.delete(&circle1)?;
+        assert!(repository.find_circle_by_id(&circle1.id).is_err());
+        Ok(())
+    }
+
+    fn build_circle() -> anyhow::Result<Circle> {
+        Circle::new(
+            "Music club".to_string(),
+            Member::new("member_name1".to_string(), 21, Grade::Third, Major::Art),
+            3,
+        )
+    }
+}

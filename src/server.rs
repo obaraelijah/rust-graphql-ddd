@@ -7,6 +7,7 @@ use crate::{
         interface::circle_repository_interface::{CircleRepositoryInterface, HasCircleRepository},
     },
     query::query_handler::QueryHandler,
+    infrastructure::circle_repository::CircleRepository,
 };
 
 pub fn new() -> anyhow::Result<AppState> {
@@ -20,7 +21,7 @@ pub fn new() -> anyhow::Result<AppState> {
     }
     impl CommandHandler for CommandHandlerStruct {}
     let command_handler = CommandHandlerStruct {
-        circle_repository: todo!()
+        circle_repository: Arc::new(CircleRepository::new()),
     };
 
     struct QueryHandlerStruct {}
