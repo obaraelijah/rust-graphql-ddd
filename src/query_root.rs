@@ -47,6 +47,20 @@ impl QueryRoot {
     //   }
     // }
 
+    pub async fn get_todo(&self, num: i32) -> async_graphql::Result<JsonPlaceholderQueryResult> {
+        let client = reqwest::Client::new();
+        let res = client
+            .get(&format!(
+                "https://jsonplaceholder.typicode.com/todos/{}",
+                num
+            ))
+            .send()
+            .await?;
+        let body = res.text().await?;
+        let json: JsonPlaceholderQueryResult = serde_json::from_str(&body)?;
+        Ok(json)
+    }
+
     // query {
     //   notSimpleObject {
     //     field1
@@ -71,6 +85,17 @@ impl QueryRoot {
 
 
 }
+
+// json
+#[derive(async_graphql::SimpleObject, serde::Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct JsonPlaceholderQueryResult {
+    pub user_id: i32,
+    pub id: i32,
+    pub title: String,
+    pub completed: bool,
+}
+
 #[derive(async_graphql::SimpleObject)]
 pub struct ComplexQueryResult {
     pub field1: String,
