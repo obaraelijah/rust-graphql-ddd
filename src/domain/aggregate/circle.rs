@@ -32,7 +32,13 @@ impl Circle {
         })
     }
 
-    pub fn reconstruct(id: CircleId, name: String, capacity: usize, owner: Member, members: Vec<Member>) -> Self {
+    pub fn reconstruct(
+        id: CircleId,
+        name: String,
+        owner: Member,
+        capacity: usize,
+        members: Vec<Member>,
+    ) -> Self {
         Circle {
             id,
             name,

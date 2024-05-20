@@ -26,21 +26,41 @@ impl CircleRepository {
 impl CircleRepositoryInterface for CircleRepository {
     fn find_circle_by_id(&self, circle_id: &CircleId) -> Result<Circle, Error> {
         match self.db.get::<CircleData, _>(&circle_id.to_string())? {
-           Some(data) => Ok(Circle::try_from(data)?),
-           None => Err(Error::msg("Circle not found")),
+            Some(data) => Ok(Circle::try_from(data)?),
+            None => Err(Error::msg("Circle not found")),
         }
     }
 
     fn create(&self, circle: &Circle) -> Result<(), Error> {
-        
+        match self.db.get::<CircleData, _>(&circle.id.to_string())? {
+            Some(_) => Err(Error::msg("Circle already exists")),
+            None => {
+                self.db
+                    .set(circle.id.to_string(), &CircleData::from(circle.clone()))?;
+                Ok(())
+            }
+        }
     }
 
     fn update(&self, circle: &Circle) -> Result<Circle, Error> {
-        
+        match self.db.get::<CircleData, _>(&circle.id.to_string())? {
+            Some(_) => self
+                .db
+                .set(circle.id.to_string(), &CircleData::from(circle.clone()))
+                .and_then(|_| self.db.get::<CircleData, _>(&circle.id.to_string()))
+                .map(|data| match data {
+                    Some(data) => Circle::try_from(data),
+                    None => Err(Error::msg("Failed to convert circle data")),
+                })?,
+            None => Err(Error::msg("Circle not found")),
+        }
     }
 
     fn delete(&self, circle: &Circle) -> Result<(), Error> {
-        
+        match self.db.get::<CircleData, _>(&circle.id.to_string())? {
+            Some(_) => self.db.remove(circle.id.to_string()),
+            None => Err(Error::msg("Circle not found")),
+        }
     }
 }
 
@@ -64,6 +84,29 @@ impl std::convert::From<Circle> for CircleData {
         }
     }
 }    
+
+impl std::convert::TryFrom<CircleData> for Circle {
+    type Error = Error;
+
+    fn try_from(data: CircleData) -> Result<Self, Self::Error> {
+        Ok(Circle::reconstruct(
+            CircleId::from(data.id),
+            data.name,
+            Member::reconstruct(
+                MemberId::from(data.owner.id),
+                data.owner.name,
+                data.owner.age,
+                Grade::try_from(data.owner.grade)?,
+                Major::from(data.owner.major.as_str()),
+            ),
+            data.capacity,
+            data.members
+                .into_iter()
+                .map(Member::try_from)
+                .collect::<Result<Vec<Member>, Error>>()?,
+        ))
+    }
+}
 #[derive(serde::Deserialize, serde::Serialize)]
 struct MemberData {
     id: usize,
@@ -71,4 +114,30 @@ struct MemberData {
     age: usize,
     grade: usize,
     major: String,
+}
+
+impl std::convert::From<Member> for MemberData {
+    fn from(value: Member) -> Self {
+        Self {
+            id: value.id.into(),
+            name: value.name,
+            age: value.age,
+            grade: value.grade.into(),
+            major: value.major.into(),
+        }
+    }
+}
+
+impl std::convert::TryFrom<MemberData> for Member {
+    type Error = Error;
+
+    fn try_from(value: MemberData) -> Result<Self, Self::Error> {
+        Ok(Member::reconstruct(
+            MemberId::from(value.id),
+            value.name,
+            value.age,
+            Grade::try_from(value.grade)?,
+            Major::from(value.major.as_str()),
+        ))
+    }
 }
