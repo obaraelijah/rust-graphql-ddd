@@ -3,6 +3,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 
+#[derive(Clone, Debug)]
 pub struct Db {
     db: Arc<RwLock<HashMap<String, String>>>,
 }
